@@ -252,7 +252,7 @@ std::wstring ScrubFileContent(const std::wstring& content)
 		token = pairs[i];
 		token.erase(0, token.find_last_of(L"=") + 1);
 		token.erase(token.find(L"\"}"));
-		if (std::stoul(token) > 4000) {
+		if (std::stoul(token) >= 4000) {
 			output.append(pairs[i]);
 			output.append(L"\r\n\r\n");
 		}
