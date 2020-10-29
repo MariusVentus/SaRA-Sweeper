@@ -107,13 +107,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		switch (wParam) {
 		case ID_SWEEP:
 		{
-			SetWindowText(hNote, L"Selecting...");
+			SetWindowText(hNote, L"Loading...");
 			std::wstring filepath = L"";
 			SelectFile(hwnd, filepath);
-			SetWindowText(hNote, L"Loading...");
 			std::wstring content = L"";
 			LoadFile(filepath, content);
-			SetWindowText(hNote, L"Checking...");
 			SetWindowText(hNote, ScrubFileContent(content).c_str());
 		}
 		break;
@@ -215,7 +213,7 @@ bool LoadFile(const std::wstring & path, std::wstring & content)
 				while (token.find(L" ") != std::string::npos) {
 					token.erase(token.find(L" "), 1);
 				}
-			} while (token.find(L"{\"text\":\"ItemCount=") == std::string::npos && token.find(L"{\"text\":\"ItemCount=") == std::string::npos && !in.eof());
+			} while (token.find(L"{\"text\":\"fullfolderpath=") == std::string::npos && token.find(L"{\"text\":\"ItemCount=") == std::string::npos && !in.eof());
 			content.append(token);
 		} while (!in.eof());
 		return true;
