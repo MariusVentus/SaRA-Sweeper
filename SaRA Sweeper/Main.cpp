@@ -82,7 +82,7 @@ bool RegisterMainWindow(HINSTANCE hInstance)
 bool CreateMainWindow(HINSTANCE hInstance)
 {
 	hMainWindow = CreateWindowEx(WS_EX_CLIENTEDGE, g_szClassName, g_WindowTitle, WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT, 500, 500, NULL, NULL, hInstance, NULL);
+		CW_USEDEFAULT, CW_USEDEFAULT, 800, 500, NULL, NULL, hInstance, NULL);
 
 	if (hMainWindow == NULL)
 	{
@@ -160,14 +160,14 @@ void AddControls(HWND hwnd)
 {
 	//Notes
 	CreateWindowEx(WS_EX_CLIENTEDGE, L"STATIC", L" Points of Interest: ", WS_CHILD | WS_VISIBLE,
-		15, 15, 440, 25, hwnd, NULL, GetModuleHandle(NULL), NULL);
+		15, 15, 740, 25, hwnd, NULL, GetModuleHandle(NULL), NULL);
 	hNote = CreateWindowEx(WS_EX_CLIENTEDGE, L"EDIT", L"",
 		WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_MULTILINE | ES_AUTOVSCROLL | WS_HSCROLL | ES_AUTOHSCROLL,
-		15, 40, 440, 300, hwnd, (HMENU)IDC_MAIN_EDIT, GetModuleHandle(NULL), NULL);
+		15, 40, 740, 300, hwnd, (HMENU)IDC_MAIN_EDIT, GetModuleHandle(NULL), NULL);
 
 	//Load File and display cleaned items
 	CreateWindowEx(WS_EX_CLIENTEDGE, L"Button", L"Load and Clean", WS_CHILD | WS_VISIBLE,
-		15, 355, 440, 50, hwnd, (HMENU)ID_SWEEP, GetModuleHandle(NULL), NULL);
+		15, 355, 740, 50, hwnd, (HMENU)ID_SWEEP, GetModuleHandle(NULL), NULL);
 }
 
 bool SelectFile(HWND hwnd, std::wstring& path)
