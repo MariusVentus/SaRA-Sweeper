@@ -107,8 +107,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		switch (wParam) {
 		case ID_SWEEP:
 		{
+			SetWindowText(hNote, L"Selecting...");
 			std::wstring filepath = L"";
 			SelectFile(hwnd, filepath);
+			SetWindowText(hNote, L"Loading...");
 			std::wstring content = L"";
 			LoadFile(filepath, content);
 			SetWindowText(hNote, L"Checking...");
@@ -206,12 +208,14 @@ bool LoadFile(const std::wstring & path, std::wstring & content)
 	if (in) {
 		std::wstring token = L"";
 		do {
-			token.clear();
-			std::getline(in, token);
-			//Remove whitespace
-			while (token.find(L" ") != std::string::npos) {
-				token.erase(token.find(L" "), 1);
-			}
+			do{
+				token.clear();
+				std::getline(in, token);
+				//Remove whitespace
+				while (token.find(L" ") != std::string::npos) {
+					token.erase(token.find(L" "), 1);
+				}
+			} while (token.find(L",{\"text\":\"ItemCount=") == std::string::npos && token.find(L",{\"text\":\"ItemCount=") == std::string::npos && !in.eof());
 			content.append(token);
 		} while (!in.eof());
 		return true;
@@ -252,6 +256,9 @@ std::wstring ScrubFileContent(const std::wstring& content)
 			output.append(pairs[i]);
 			output.append(L"\r\n\r\n");
 		}
+	}
+	if (output.empty()) {
+		output = L"No Items Found.";
 	}
 	return output;
 
