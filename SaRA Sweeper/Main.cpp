@@ -223,6 +223,7 @@ bool LoadFile(const std::wstring & path, std::wstring & content)
 
 std::wstring ScrubFileContent(const std::wstring& content)
 {
+	//This is so ugly, please don't look. Will make it pretty later. Maybe.
 	std::vector<std::wstring> pairs;
 	std::wstring token = L"";
 	std::wstring localContent = content;
@@ -249,7 +250,7 @@ std::wstring ScrubFileContent(const std::wstring& content)
 		token.erase(token.find(L"\"}"));
 		if (std::stoul(token) > 4000) {
 			output.append(pairs[i]);
-			output.append(L"\r\n");
+			output.append(L"\r\n\r\n");
 		}
 	}
 	return output;
