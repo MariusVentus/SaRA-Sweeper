@@ -210,12 +210,12 @@ bool LoadFile(const std::wstring & path, std::wstring & content)
 		do {
 			do{
 				token.clear();
-				std::getline(in, token);
+				std::getline(in, token, L',');
 				//Remove whitespace
 				while (token.find(L" ") != std::string::npos) {
 					token.erase(token.find(L" "), 1);
 				}
-			} while (token.find(L",{\"text\":\"ItemCount=") == std::string::npos && token.find(L",{\"text\":\"ItemCount=") == std::string::npos && !in.eof());
+			} while (token.find(L"{\"text\":\"ItemCount=") == std::string::npos && token.find(L"{\"text\":\"ItemCount=") == std::string::npos && !in.eof());
 			content.append(token);
 		} while (!in.eof());
 		return true;
@@ -233,11 +233,11 @@ std::wstring ScrubFileContent(const std::wstring& content)
 	std::wstring localContent = content;
 	localContent.erase(0, localContent.find(L"{\"text\":\"fullfolderpath="));
 	//Fill Vector
-	while (localContent.find(L"{\"text\":\"fullfolderpath=") != std::string::npos || localContent.find(L",{\"text\":\"ItemCount=") != std::string::npos) {
+	while (localContent.find(L"{\"text\":\"fullfolderpath=") != std::string::npos || localContent.find(L"{\"text\":\"ItemCount=") != std::string::npos) {
 		token.clear();
-		token = localContent.substr(localContent.find(L"{\"text\":\"fullfolderpath="), localContent.find(L",{\"text\":\"ItemCount="));
+		token = localContent.substr(localContent.find(L"{\"text\":\"fullfolderpath="), localContent.find(L"{\"text\":\"ItemCount="));
 		localContent.erase(localContent.find(token), token.size());
-		token.append(localContent.substr(localContent.find(L",{\"text\":\"ItemCount="), localContent.find(L"\"}")+2));
+		token.append(localContent.substr(localContent.find(L"{\"text\":\"ItemCount="), localContent.find(L"\"}")+2));
 		localContent.erase(0, localContent.find(L"{\"text\":\"fullfolderpath="));
 		
 		if (!token.empty()) {
