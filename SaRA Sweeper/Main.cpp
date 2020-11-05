@@ -213,7 +213,7 @@ bool LoadFile(const std::wstring & path, std::wstring & content)
 				while (token.find(L" ") != std::string::npos) {
 					token.erase(token.find(L" "), 1);
 				}
-			} while (token.find(L"{\"text\":\"fullfolderpath=") == std::string::npos && token.find(L"{\"text\":\"ItemCount=") == std::string::npos && !in.eof());
+			} while (token.empty() && !in.eof());
 			content.append(token);
 		} while (!in.eof());
 		return true;
@@ -249,7 +249,7 @@ std::wstring ScrubFileContent(const std::wstring& content)
 		token.clear();
 		token = pairs[i];
 		token.erase(0, token.find_last_of(L"=") + 1);
-		token.erase(token.find(L"\"}"));
+		token.erase(token.find_last_of(L"}") - 1);
 		if (std::stoul(token) >= 4000) {
 			output.append(pairs[i]);
 			output.append(L"\r\n\r\n");
