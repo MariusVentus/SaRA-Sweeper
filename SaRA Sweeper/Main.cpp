@@ -12,7 +12,7 @@
 
 //Globals
 const wchar_t g_szClassName[] = L"SaRASweeperMain";
-const wchar_t g_WindowTitle[] = L"SaRASweeper V0.0.1";
+const wchar_t g_WindowTitle[] = L"SaRASweeper V0.0.15-alpha";
 HWND hMainWindow, hNote;
 
 //Forward Declarations
@@ -202,7 +202,7 @@ bool SelectFile(HWND hwnd, std::wstring& path)
 
 bool LoadFile(const std::wstring & path, std::wstring & content)
 {
-	std::wifstream in(path);
+	std::wifstream in(path, std::wifstream::binary);
 	if (in) {
 		std::wstring token = L"";
 		do {
@@ -210,8 +210,8 @@ bool LoadFile(const std::wstring & path, std::wstring & content)
 				token.clear();
 				std::getline(in, token, L',');
 				//Remove whitespace
-				while (token.find(L" ") != std::string::npos) {
-					token.erase(token.find(L" "), 1);
+				while (token.find_first_of(L" \t\r\n\v\f") != std::string::npos) {
+					token.erase(token.find_first_of(L" \t\r\n\v\f"), 1);
 				}
 			} while (token.empty() && !in.eof());
 			content.append(token);
