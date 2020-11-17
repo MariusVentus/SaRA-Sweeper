@@ -12,7 +12,7 @@
 
 //Globals
 const wchar_t g_szClassName[] = L"SaRASweeperMain";
-const wchar_t g_WindowTitle[] = L"SaRASweeper V0.0.15-alpha";
+const wchar_t g_WindowTitle[] = L"SaRASweeper V0.0.17-alpha";
 HWND hMainWindow, hNote;
 
 //Forward Declarations
@@ -245,6 +245,7 @@ std::wstring ScrubFileContent(const std::wstring& content)
 
 	//Only choose those with ItemCount greater than 4000
 	std::wstring output;
+	unsigned foundCount = 0;
 	for (unsigned i = 0; i < pairs.size(); i++) {
 		token.clear();
 		token = pairs[i];
@@ -253,11 +254,16 @@ std::wstring ScrubFileContent(const std::wstring& content)
 		if (std::stoul(token) >= 4000) {
 			output.append(pairs[i]);
 			output.append(L"\r\n\r\n");
+			foundCount++;
 		}
 	}
 	if (output.empty()) {
 		output = L"No Items Found.";
 	}
+	output.insert(0, L" Records.\r\n\r\n");
+	output.insert(0, std::to_wstring(pairs.size()));
+	output.insert(0, L" Points of Interest found out of ");
+	output.insert(0, std::to_wstring(foundCount));
 	return output;
 
 }
